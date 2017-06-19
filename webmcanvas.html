@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://buildar.com/static/drawimage/minimal.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+
+</head>
+<body>
+	<p>If you're on a Blink/WebKit browser then tap anywhere to start the video (be patient after tapping, it needs to load data)</p>
+<video height="130" style="background-color: crimson; display:inline-block" id="video" loop="" src="video.webm" autoplay></video>
+	<p>You should see a copy of the video drawn onto the canvas below (once the video starts playing).</p>
+<canvas height="130" id="canvas" style="background-color: ghostwhite; display:inline-block" width="227"></canvas>
+
+<script type="text/javascript">
+
+
+var video = document.getElementById('video');
+
+var videoImage = document.getElementById('canvas');
+var videoImageContext = videoImage.getContext('2d');
+
+var w, h = 130;
+
+video.addEventListener('loadedmetadata', function() {
+	w = h * video.videoWidth / video.videoHeight;
+	videoImage.height = h;
+	videoImage.width = w;
+});
+video.addEventListener('canplaythrough', function() {
+	console.log('canplaythrough')
+  video.play();
+});
+
+video.addEventListener('playing', function() {
+  setInterval(function() {
+    videoImageContext.drawImage( video, 0, 0, w, h );
+  }, 40);
+}, false);
+
+document.body.addEventListener('click', function() {
+	video.play();
+}, false);
+
+video.load();
+
+</script>
+
+
+
+</body></html>
