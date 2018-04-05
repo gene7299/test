@@ -1,0 +1,13 @@
+CACHE MANIFEST
+# 2018-04-03:v1
+
+CACHE:
+dexie.js
+jquery-1.9.1.js
+pace.min.js
+pace-theme-center-circle.css
+exec.js
+
+NETWORK:
+video.html
+*
