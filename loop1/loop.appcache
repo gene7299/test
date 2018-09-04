@@ -1,7 +1,11 @@
 CACHE MANIFEST
 # 2017-04-03:v1
 
+CACHE:
+#
 
 NETWORK:
+index.html
+i.jpg
+v.mp4
 *
-
