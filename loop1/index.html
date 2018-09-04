@@ -1,4 +1,4 @@
-<html>
+<html manifest="loop.appcache">
 <head>
 <title>HTML5 Video</title>
     <script src="jquery-2.2.1.min.js" type="text/javascript"></script>
@@ -32,10 +32,24 @@
     		setTimeout(function(){
 	    		var vid = document.getElementById("video"); 
 	    		$("#video").trigger('click');
-		    	vid.onended = function() {
+		    	vid.addEventListener('ended',function() {
 					console.log("play ended");
-					showPicture(0);
-				};
+					//showPicture(0);
+				},false);
+				var checkVideoEnd = function(vid){
+					var tid = document.getElementById(vid); 
+					if(tid.ended == true){
+						return true;
+					}else
+						return false;	
+				}
+				var checkingVideoIntervalHandle = setInterval(function(){
+					if(checkVideoEnd('video')){
+						clearInterval(checkingVideoIntervalHandle);
+						console.log("play ended2");
+						showPicture(0);
+					}
+				},100);
     		},1);
     	}
 
