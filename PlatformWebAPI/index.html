@@ -1,0 +1,33 @@
+<head>
+      <meta charset="utf-8">
+      <script src="jquery-2.2.1.min.js" type="text/javascript"></script>
+<script>
+      $(document).ready(function () {
+            $.ajax({
+                url: 'http://localhost:9988/platform/getinfo',
+                type: 'GET',
+                timeout: 5000,
+                data: {},
+                dataType: "json",                
+                success: function (Jdata) {
+	                if (Jdata['status'] == 'success'){
+                    	   var interfaces = Jdata['result']['interfaces'];
+                            for (var i = 0; i < interfaces.length ; i++){                        
+                                console.log('mac='+interfaces[i]['ip']);                    
+                            }
+                            var currentip = Jdata['result']['currentip'];
+                            var sn = Jdata['result']['sn'];
+                            var model = Jdata['result']['model'];
+                            console.log("currentip ="+ currentip +", sn="+sn);
+                             console.log("Jdata['result']="+JSON.stringify(Jdata['result']));
+                            $("#output").append("output="+JSON.stringify(Jdata['result']));
+                    }
+                },
+                error: function (xhr) {}
+            });
+      });
+      </script>
+</head>
+<html>
+<div id="output"></div>
+</html>
