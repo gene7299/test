@@ -1,0 +1,317 @@
+<html>
+<head>
+<script src="cookie.js"></script>
+<script src="dexie.js"></script>	
+<script src="jquery-1.9.1.js"></script>
+
+<title>Browser Stroage Test</title>
+</head>
+<body style="
+font-family: verdana;
+font-size: 13px;
+line-height: 20px;
+">
+	<p>
+		<span style="font-weight: bold;color:rgb(141, 159, 221);">All Test:</span><br> 
+		<input type="button" onclick="update_all('12345');" value="Update With 12345">&nbsp;<input type="button" onclick="update_all('ABCDE');" value="Update With ABCDE">&nbsp;<input type="button" onclick="delete_all();" value="Delete All">
+	</p>
+
+	<p>
+		<span style="font-weight: bold;color: lightcoral;">Cookie:</span>&nbsp;&nbsp; <span style="font-size:10px" ><a href="http://browsercookielimits.squawky.net/">(Max Cookie Size Test)</a> (Expected value : 4096 byte per cookie)</span><br> 
+		Key:<input type="text"  size="5" value="Key001"  id="cookie_get_key"> Value: <input type="text" size="10"  id="cookie_get_value"> 
+		&nbsp;&nbsp;&nbsp;Update Value: <input type="text"  size="10" id="cookie_set_vale">
+		<input type="button" onclick="update_cookie();" value="Update it">&nbsp;<input type="button" onclick="delete_cookie();" value="Delete it">
+	</p>	
+
+	<p>
+		<span style="font-weight: bold;color: lightcoral;">Local storage:</span>&nbsp;&nbsp; <span style="font-size:10px" ><a href="https://arty.name/localstorage.html">(Max Local Stroage Size Test)</a> (Expected value :  5200K characters = 10MB )</span><br>
+		Key:<input type="text"  size="5" value="Key001"  id="local_get_key"> Value: <input type="text" size="10"  id="local_get_value"> 
+		&nbsp;&nbsp;&nbsp;Update Value: <input type="text" size="10" id="local_set_vale">
+		<input type="button" onclick="update_localstorage();" value="Update it">&nbsp;<input type="button" onclick="delete_localstorage();" value="Delete it">
+	</p>
+	<p>
+		<span style="font-weight: bold;color: lightcoral;">Session storage:</span>&nbsp;&nbsp; <span style="font-size:10px" ><a href="http://dev-test.nemikor.com/web-storage/support-test/">(Max Session Stroage Size Test)</a> (Expected value :  5200K characters = 10MB )</span><br> 
+		Key:<input type="text"  size="5" value="Key001"  id="session_get_key"> Value: <input type="text" size="10"  id="session_get_value"> 
+		&nbsp;&nbsp;&nbsp;Update Value: <input type="text" size="10" id="session_set_vale">
+		<input type="button" onclick="update_sessionstorage();" value="Update it">&nbsp;<input type="button" onclick="delete_sessionstorage();" value="Delete it">
+	</p>
+
+	<p>
+		<span style="font-weight: bold;color: lightcoral;">IndexDB:</span><br> 
+		Key:<input type="text"  size="5" value="Key001"  id="indexdb_get_key"> Value: <input type="text" size="10"  id="indexdb_get_value"> 
+		&nbsp;&nbsp;&nbsp;Update Value: <input type="text" size="10" id="indexdb_set_vale">
+		<input type="button" onclick="update_indexdb();" value="Update it">&nbsp;<input type="button" onclick="delete_indexdb();" value="Delete it">
+	</p>
+
+	<p>
+		<span style="font-weight: bold;color: lightcoral;">WebSQL:</span><br> 
+		Key:<input type="text"  size="5" value="Key001"  id="websql_get_key"> Value: <input type="text" size="10"  id="websql_get_value"> 
+		&nbsp;&nbsp;&nbsp;Update Value: <input type="text" size="10" id="websql_set_vale">
+		<input type="button" onclick="update_websql();" value="Update it">&nbsp;<input type="button" onclick="delete_websql();" value="Delete it">
+	</p>
+
+
+<p style="font-size:10px">
+	<span style="font-weight: bold;color: lightcoral;">Other test sites:</span><br>
+		<a href="https://demo.agektmr.com/storage/">https://demo.agektmr.com/storage/</a> &nbsp;Ref: https://www.html5rocks.com/en/tutorials/offline/quota-research/
+
+</p>
+<p style="font-size:10px">
+The sessionStorage property accesses a session Storage object for the current origin. sessionStorage is similar to localStorage; the difference is that while data in localStorage doesn't expire, data in sessionStorage is cleared when the page session ends.
+</p>
+	<p id="cookie-warning"></p>
+	<p id="local-warning"></p>
+	<p id="session-warning"></p>
+	<p id="indexdb-warning"></p>
+	<p id="websql-warning"></p>
+<script>
+
+//===============================================================================
+function update_cookie() {
+
+	var textBox = document.getElementById("cookie_set_vale");
+	try{
+		docCookies.setItem("Key001",  textBox.value , Infinity);
+	}catch(e){
+		document.getElementById("cookie-warning").innerHTML = e.message;
+	}
+	retrieve_cookie();
+}
+
+function retrieve_cookie() {
+
+	var val = docCookies.getItem("Key001");
+	if (val != null)
+		document.getElementById("cookie_get_value").value = val;
+	else
+	    document.getElementById("cookie_get_value").value = "N/A";
+}
+function delete_cookie() {
+
+	docCookies.removeItem("Key001");	// don't store empty string, delete it instead
+	retrieve_cookie();
+}
+
+//===============================================================================
+
+function update_localstorage() {
+	var storageArea = window.localStorage;
+	var textBox = document.getElementById("local_set_vale");
+	storageArea.Key001 = textBox.value;
+	retrieve_localstorage();
+}
+
+function retrieve_localstorage() {
+	var storageArea = window.localStorage;
+	var val = storageArea.Key001;
+	if (val != null)
+		document.getElementById("local_get_value").value = val;
+	else
+	    document.getElementById("local_get_value").value = "N/A";
+}
+function delete_localstorage() {
+	var storageArea = window.localStorage;
+	delete storageArea.Key001;	// don't store empty string, delete it instead
+	retrieve_localstorage();
+}
+
+//===============================================================================
+function update_sessionstorage() {
+	var storageArea = window.sessionStorage;
+	var textBox = document.getElementById("session_set_vale");
+	storageArea.Key001 = textBox.value;
+	retrieve_sessionstorage();
+}
+
+function retrieve_sessionstorage() {
+	var storageArea = window.sessionStorage;
+	var val = storageArea.Key001;
+	if (val != null)
+		document.getElementById("session_get_value").value = val;
+	else
+	    document.getElementById("session_get_value").value = "N/A";
+}
+function delete_sessionstorage() {
+	var storageArea = window.sessionStorage;
+	delete storageArea.Key001;	// don't store empty string, delete it instead
+	retrieve_sessionstorage();
+}
+
+
+//===============================================================================
+async function update_indexdb() {
+	
+	var textBox = document.getElementById("indexdb_set_vale");
+	try{
+		var val = await myIndexDB.table01.get("Key001");
+		if (val != null){
+			await myIndexDB.table01.put(textBox.value,"Key001");
+		}else{
+			await myIndexDB.table01.add(textBox.value,"Key001");
+		}
+		
+	}catch(e){
+		document.getElementById("indexdb-warning").innerHTML = e.message;
+	}
+	retrieve_indexdb();
+}
+
+async function retrieve_indexdb() {
+
+	var val = await myIndexDB.table01.get("Key001");
+	if (val != null)
+		document.getElementById("indexdb_get_value").value = val;
+	else
+		document.getElementById("indexdb_get_value").value = "N/A";
+}
+async function delete_indexdb() {
+	console.log("delete_indexdb!");
+	await myIndexDB.table01.delete("Key001");
+	retrieve_indexdb();
+}
+//===============================================================================
+function updateWeSQLList(transaction, results) {
+    //initialise the listitems variable
+    var listitems = "";
+    //get the car list holder ul
+    var listholder = document.getElementById("websql_get_value");
+
+	document.getElementById("websql_get_value").value = "N/A";
+    var i;
+    //Iterate through the results
+    for (i = 0; i < results.rows.length; i++) {
+        //Get the current row
+		var row = results.rows.item(i);
+		if(row.myKey == "Key001"){
+			document.getElementById("websql_get_value").value = row.myValue;
+		}		
+		console.log("row.id="+row.id+";row.myKey="+row.myKey+";row.myValue="+row.myValue);
+        //listholder.innerHTML += "<li>" + row.make + " - " + row.model + " (<a href='javascript:void(0);' onclick='deleteCar(" + row.id + ");'>Delete Car</a>)";
+    }
+
+}
+function update_websql() {
+
+	
+	if (myWebSQLDB) {
+		
+		myWebSQLDB.transaction(function (t) {
+				t.executeSql("SELECT * FROM table01 WHERE myKey=?", ["Key001"], function(t,results){
+				
+						var textBox = document.getElementById("websql_set_vale");
+						var row = results.rows.length;
+           				if (row !== 0) {
+							myWebSQLDB.transaction(function (t) {
+								
+								t.executeSql("UPDATE table01 SET myValue=? WHERE myKey=?", [textBox.value,"Key001"]);
+								retrieve_websql();
+							});
+						}else{
+          				  //Insert the user entered details into the cars table, note the use of the ? placeholder, these will replaced by the data passed in as an array as the second parameter
+							myWebSQLDB.transaction(function (t) {
+							
+								t.executeSql("INSERT INTO table01 (myKey, myValue) VALUES (?, ?)", ["Key001", textBox.value]);
+								retrieve_websql();
+							});
+						}
+
+				},null);
+			});
+			console.log("CCC");
+    } 
+	console.log("DDD");
+}
+
+function retrieve_websql() {
+
+    if (myWebSQLDB) {
+        //Get all the cars from the database with a select statement, set outputCarList as the callback function for the executeSql command
+        myWebSQLDB.transaction(function (t) {
+            t.executeSql("SELECT * FROM table01", [], updateWeSQLList);
+        });
+    } 
+}
+function delete_websql() {
+	if (myWebSQLDB) {
+        //Get all the cars from the database with a select statement, set outputCarList as the callback function for the executeSql command
+        myWebSQLDB.transaction(function (t) {
+            t.executeSql("DELETE FROM table01 WHERE id=?", [1], retrieve_websql);
+        });
+    } 
+	retrieve_websql();
+}
+
+//===============================================================================
+function update_all(new_value){
+	document.getElementById("cookie_set_vale").value  = new_value;
+	document.getElementById("local_set_vale").value  = new_value;
+	document.getElementById("session_set_vale").value  = new_value;
+	document.getElementById("indexdb_set_vale").value  = new_value;
+	document.getElementById("websql_set_vale").value  = new_value;
+	update_cookie();
+	update_localstorage();
+	update_sessionstorage();
+	update_indexdb();
+	update_websql();
+}
+function delete_all(new_value){
+	delete_cookie();
+	delete_localstorage();
+	delete_sessionstorage();
+	delete_indexdb();
+	delete_websql();
+}
+
+//===============================================================================
+//init 
+var myIndexDB;// = new Dexie('BST');
+var myWebSQLDB; 
+function initDB(){
+	myIndexDB.version(1).stores({table01:"",table02:""});
+}
+
+function initWebSQL() {
+	//Create the database the parameters are 1. the database name 2.version number 3. a description 4. the size of the database (in bytes) 1024 x 1024 = 1MB
+    myWebSQLDB = openDatabase("my_db", "0.1", "A Database of Browser Storage Test", 1024 * 1024);
+  //create the cars table using SQL for the database using a transaction
+	myWebSQLDB.transaction(function (t) {
+			t.executeSql("CREATE TABLE IF NOT EXISTS table01 (id INTEGER PRIMARY KEY ASC, myKey TEXT, myValue TEXT)");
+	});
+}
+
+$( document ).ready(function(){
+
+	if (window.indexedDB) {
+		if (window.indexedDB.deleteDatabase){
+			myIndexDB = new Dexie('BST');
+			initDB();
+			retrieve_indexdb();
+		}else{
+			document.getElementById("indexdb-warning").innerHTML = "Note: this browser does not support indexedDB [deleteDatabase] ";
+		}
+	}else{
+		document.getElementById("indexdb-warning").innerHTML = "Note: this browser does not support indexedDB";
+	}
+
+	if (window.openDatabase) {
+		initWebSQL();
+		retrieve_websql();
+	}else{
+		document.getElementById("websql-warning").innerHTML = "Note: this browser does not support indexedDB";
+	}
+
+	retrieve_cookie();
+	if (window.localStorage)
+		retrieve_localstorage();
+	else
+		document.getElementById("local-warning").innerHTML = "Note: this browser does not support localStorage";
+
+	if (window.sessionStorage)
+		retrieve_sessionstorage();
+	else
+		document.getElementById("session-warning").innerHTML = "Note: this browser does not support sessionStorage";
+});
+
+</script>
+</body>
+</html>
