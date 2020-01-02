@@ -13,7 +13,7 @@ line-height: 20px;
 ">
 	<p>
 		<span style="font-weight: bold;color:rgb(141, 159, 221);">All Test:</span><br> 
-		<input type="button" onclick="update_all('12345');" value="Update With 12345">&nbsp;<input type="button" onclick="update_all('ABCDE');" value="Update With ABCDE">&nbsp;<input type="button" onclick="delete_all();" value="Delete All">
+		<input type="button" onclick="update_all('12345');" value="Update With 12345">&nbsp;<input type="button" onclick="update_all('ABCDE');" value="Update With ABCDE">&nbsp;<input type="button" onclick="delete_all();" value="Delete All">&nbsp;<input type="button" onclick="quick_update();" value="Quick Update Test">
 	</p>
 
 	<p>
@@ -261,7 +261,20 @@ function delete_all(new_value){
 	delete_indexdb();
 	delete_websql();
 }
+function quick_update(){
+	var updateStringArray = ['12345','ABCDE'];
+	var now = 0;
+	setInterval(function(){
+		update_all(updateStringArray[now]);
+		if(now == 0){
+			now = 1;
+		}else{
+			now = 0;
+		}
+	},200);
 
+
+}
 //===============================================================================
 //init 
 var myIndexDB;// = new Dexie('BST');
