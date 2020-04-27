@@ -210,7 +210,7 @@
 <body>
 
 
-<video id="myVideo" onended="onVideoEnded();" style="width:100%;" type='video/mp4' loop></video>
+<video id="myVideo" onended="onVideoEnded();" style="width:100%;" type='video/mp4' loop onclick="openFullscreen();"></video>
 <div id="videoloader"></video>
 <script type="text/javascript">
 
@@ -342,7 +342,7 @@ async function playVideo(i){
 }
 function onVideoPlay(){
 	console.log("start video playing");
-	document.getElementById("myVideo").webkitRequestFullScreen();
+	//document.getElementById("myVideo").webkitRequestFullScreen();
 }
 
 function onVideoEnded(){
@@ -375,6 +375,26 @@ function dataURItoBlob(dataURI) {
   return blob;
 
 }
+
+/* Get the element you want displayed in fullscreen mode (a video in this example): */
+
+
+/* When the openFullscreen() function is executed, open the video in fullscreen.
+Note that we must include prefixes for different browsers, as they don't support the requestFullscreen method yet */
+function openFullscreen() {
+  document.getElementById("myVideo").webkitRequestFullScreen();
+  var elem = document.getElementById("myvideo");
+  //if (elem.requestFullscreen) {
+  //  elem.requestFullscreen();
+  //} else if (elem.mozRequestFullScreen) { /* Firefox */
+  //  elem.mozRequestFullScreen();
+  //} else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+  //  elem.webkitRequestFullscreen();
+  //} else if (elem.msRequestFullscreen) { /* IE/Edge */
+  //  elem.msRequestFullscreen();
+ // }
+}
+
   </script>
 </body>
 </html>
