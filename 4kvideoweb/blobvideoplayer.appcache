@@ -1,0 +1,11 @@
+CACHE MANIFEST
+# 2017-04-03:v1
+
+CACHE:
+dexie.js
+jquery-1.9.1.js
+
+NETWORK:
+video.html
+*
+
