@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>this is test</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+ 
+$(document).ready(function(){
+ 
+		var vList = ['big_buck_bunny.mp4','video.mp4'];
+
+    console.log("start");
+    var vLen = vList.length;  
+    var curr = 0; 
+    var sCount = 1;
+    
+    function createVideoTag(){
+        console.log("--1-- curr="+curr);
+        //default dom
+        //$("#vid_0").remove();
+        //$("#vid_1").remove();
+        //$("#item_0").hide();
+        //$("#item_1").hide();
+
+        //create new video
+        var html1 =  '<video width="720" height="400" class="video" id="vid_'+0+'" src="'+vList[curr]+'" controls>'
+        if(document.getElementById("vid_"+0) == null)
+          $("#item_"+0).append(html1);
+        else
+          $("#vid_"+0).attr("src",vList[curr]);
+        $("#item_"+0).show();
+    
+        var myvideo = document.getElementById("vid_"+0);  
+        console.log("vid.readyState="+myvideo.readyState);
+         //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- begin --
+        setTimeout(function(){
+            console.log("vid.readyState_D="+myvideo.readyState);
+            if(myvideo.readyState == 1){
+                //myvideo.load();
+                myvideo.play();
+            }
+        },100);
+         //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- end 
+        myvideo.onended = function() {
+          console.log("onended curr="+curr);
+
+          curr++;   
+          if(curr >= vLen){   
+              curr = 0;
+          }
+          console.log("count:"+sCount);
+          sCount++;
+          createVideoTag();
+        };
+
+        myvideo.play();
+       
+    }        
+ 
+    createVideoTag();
+});   
+        
+</script>
+
+</head>
+<body>
+  test033
+<div id="item_0"></div>
+
+
+</video>
+</body>
+</html>

@@ -1,0 +1,1 @@
+秘訣是只能一個網頁只能放一個video tag，放第二個video tag 會load不到影片
