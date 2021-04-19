@@ -40,17 +40,21 @@ function main() {
 }
 $( document ).ready(function() {
     console.log( "ready!" );
+
   	start();
-    main();
+    
 });
 
 </script>
 </head>
 <body style="padding: 0;margin: 0;">
-<h1>Checks if you are in incognito mode (Only For Android Chromium</h1>
+<h1>Checks if you are in incognito mode</h1>
 <div id="result1"></div> (Using RequestFileSystem API)
 <br/>
 <div>&nbsp;</div>
 <div id="result2"></div> (Using Stroage Estimate)
+<script>
+	main();
+</script>
 </body>
 </html>
