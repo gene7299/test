@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>Incognito Mode Detection</title>
+    <script src="jquery-2.2.1.min.js" type="text/javascript"></script>
+	<script src="jquery.timers-1.1.2.js" type="text/javascript"></script>
+<script>
+async function start() {
+	if ('storage' in navigator && 'estimate' in navigator.storage) {
+		const {usage, quota} = await navigator.storage.estimate();
+	    console.log(`Using ${usage} out of ${quota} bytes.`);
+
+		if(quota < 120000000){
+	        //alert('We see you! You are incognito!')
+	        console.log('Incognito')
+	        $("#result2").html("We see you! You are incognito!");
+	    } else {
+	        //alert('Not incognito!')
+	        console.log('Not Incognito')
+	        $("#result2").html("You are NOT incognito!");
+	    }	
+	} else {
+		console.log('Can not detect');
+		$("#result2").html("Can not detect!");
+	}
+}
+function main() {
+  var fs = window.RequestFileSystem || window.webkitRequestFileSystem;
+  if (!fs) {
+    //result.textContent = "check failed?";
+    $("#result1").html("check failed?");
+    return;
+  }
+  fs(window.TEMPORARY, 100, function(fs) {
+    //result.textContent = "it does not seem like you are in incognito mode";
+    $("#result1").html("We see you! You are incognito!");
+  }, function(err) {
+    //result.textContent = "it seems like you are in incognito mode";
+    $("#result1").html("You are NOT incognito!");
+  });
+}
+$( document ).ready(function() {
+    console.log( "ready!" );
+  	start();
+    main();
+});
+
+</script>
+</head>
+<body style="padding: 0;margin: 0;">
+<h1>Checks if you are in incognito mode (Only For Android Chromium</h1>
+<div id="result1"></div> (Using RequestFileSystem API)
+<br/>
+<div>&nbsp;</div>
+<div id="result2"></div> (Using Stroage Estimate)
+</body>
+</html>
