@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=10"/>
+<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1, maximum-scale=1">
+<title>Test Counter Beep</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<style type="text/css">
+.bigCounter {
+	font-size: 30vw;
+}
+.page {
+    text-align: center;
+    display: none;
+    font-size: 3vw;
+}
+</style>
+<script type="text/javascript">
+var rspTime;
+var alarmResponse = new Object();
+alarmResponse.Acked = false;
+var shell;
+// Response Timer function
+function responseTimer()
+{
+	rspTime++;
+
+	if (!alarmResponse.Acked)
+	{
+		if (shell == "app")
+			window.location.href = "app:PlaySound('beep')";
+		else
+			audioBeep.play();
+/*
+		// check if alarm responded on other monitor 
+		httpGet("get_is_alarm_rsp_acked.cgi?AlarmId=" + alarmResponse.AlarmId, function()
+		{
+			if (this.responseText == "TRUE" && alarmResponse.Acked == false)
+			{
+				if (TID !== undefined)
+					clearTimeout(TID);
+				if (RTID !== undefined)
+					clearTimeout(RTID);
+				if (CTID !== undefined)
+					clearTimeout(CTID);
+				CTID = setInterval(checkComms, 5000);
+				showPage("monitor");
+				setTabletLedGreen();
+				startMonitor();
+			}
+		});
+	}
+*/
+	// Display timer countdown
+	document.getElementById((alarmResponse.Acked)?"maxTimer":"rspTimer").innerHTML =
+		parseInt(rspTime / 60) + ":" + ("0" + rspTime % 60).substr(-2);
+/*
+	if (!alarmResponse.Acked && rspSetting.RspTimeout == rspTime)
+	{
+		rspSubmit(false);
+	}
+	else if (alarmResponse.Acked && rspSetting.MaxTimeout == rspTime)
+	{
+		rspSubmit(true);
+	}
+	else
+		*/
+		RTID = setTimeout(responseTimer, 1000);
+	}
+}
+// HTML body onload event handler
+function onLoad()
+{
+	audioBeep = new Audio("beep.mp3");
+	rspTime = 0;
+	responseTimer();	
+}
+</script>
+</head>
+<body onload="onLoad();">
+	<div> version 002 (beep.mp3) </div>
+	<div id="timer" class="page" style="display: block;">
+	<div class="bigCounter" id="rspTimer"></div>
+</div>
+</body>
+</html>
