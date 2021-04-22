@@ -77,18 +77,19 @@ function onLoad()
 	//audioBeep = new Audio("beep.wav");
 	audioBeep = document.getElementById("audioBeep"); 
 	rspTime = 0;
-	responseTimer();	
+	//responseTimer();	
 }
 </script>
 </head>
 <body onload="onLoad();">
-	<div> version 001 (beep.wav) </div>
+	<div> version 002 (beep.wav) </div>
 	<audio id="audioBeep" controls="">
  		<source src="beep.wav">
   Your browser does not support the audio element.
 	</audio>
 	<div id="timer" class="page" style="display: block;">
 	<div class="bigCounter" id="rspTimer"></div>
+	<button onClick="responseTimer()">GO BEEP!</button>
 </div>
 </body>
 </html>
