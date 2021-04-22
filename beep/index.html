@@ -74,7 +74,8 @@ function responseTimer()
 // HTML body onload event handler
 function onLoad()
 {
-	audioBeep = new Audio("beep.wav");
+	//audioBeep = new Audio("beep.wav");
+	audioBeep = document.getElementById("audioBeep"); 
 	rspTime = 0;
 	responseTimer();	
 }
@@ -82,7 +83,7 @@ function onLoad()
 </head>
 <body onload="onLoad();">
 	<div> version 001 (beep.wav) </div>
-	<audio controls="">
+	<audio id="audioBeep" controls="">
  		<source src="beep.wav">
   Your browser does not support the audio element.
 	</audio>
