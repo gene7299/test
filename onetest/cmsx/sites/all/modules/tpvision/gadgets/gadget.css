@@ -1,0 +1,405 @@
+/* If you want you can use font-face */
+
+.gadget-object .clock, .gadget-object .weather-gadget {
+    color: rgba(255, 255, 255, 1);
+    line-height: initial;
+    margin: 0 auto;
+}
+.gadget-object #gadget-date, .gadget-object .weather-gadget {
+    /*font-family: 'BebasNeueRegular', Arial, Helvetica, sans-serif;*/
+    text-align: center;
+    /*text-shadow: 0 0 5px #00c6ff;*/
+    line-height: normal;
+}
+.gadget-object div#time, .gadget-object .weather-gadget div {
+    margin: 0 auto;
+    padding: 0px;
+    list-style: none;
+    text-align: center;
+    line-height: normal;
+}
+.gadget-object div#time span {
+    display: inline-block;
+}
+
+
+.required_field{
+    color:rgba(255, 0, 0, 1);
+}
+
+.twitter-user-details{
+    display: flex;
+    align-items: center;
+    /*justify-content: center;*/
+    padding: 15px 0;
+    width: 45%;
+    justify-content: left;
+}
+.twitter-user-details .user-details{
+    display: inline-flex;
+    min-width: 100px;
+    word-break: break-all;
+    flex-direction: column;
+}
+
+.social-media-widget{
+    background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.twitter-main-div{
+    /* max-width:300px; */
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    background-color: rgba(255, 255, 255, 1);
+    display: inline-flex;
+}
+
+.twitter-dp {
+    position: relative;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+    margin: 0;
+    margin-right: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,.1);
+    border-radius: 50%;
+}
+.twitter-img img {
+    width: 100%;
+    height: 100%;
+}
+h3.sname {
+    margin-left: 2px;
+    margin-top: -20px;
+}
+.twitter-text {
+    font-family: initial;
+    margin-top: 6px;
+    margin-left: 30px;
+    font-size: 18px;
+    line-height: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: left;
+    padding: 15px 0;
+    width: 60%;
+    margin-right: 80px;
+}
+.twitter-media{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px 0;
+    width: 20.33%;
+}
+
+p.twitter-screen-name {
+    font-weight: 800;
+    font-size: 18px;
+}
+.twitter-time, p.twitter-name   {
+    font-weight: 800;
+    color:rgba(128, 128, 128, 1);
+    font-size: 14px;
+    box-shadow: none;
+}
+ a.twtr-hyperlink, a.twtr-hashtag, a.twtr-atreply{
+    color : rgba(0, 164, 235, 1);
+} 
+
+.twitter-insta-feeds ::placeholder{
+    color: rgba(0, 0, 0, 1);
+    opacity: 0.5;
+}
+#social_instafeed{
+    list-style:none 
+}
+#social_instafeed li{
+    float:left;
+    width:150px;
+    height:150px;
+    margin:5px
+}
+#social_instafeed li img{
+    width:100%;
+    height:100%;
+  }
+  .insta-hashtag-div {
+    float: left;
+    width: 100%;
+    text-align: left;
+    margin-left: 30px;
+}
+.hashtag-instafeed {
+    float: left;
+    width: 150px;
+    height: 150px;
+    margin: 5px;
+}
+
+/* Simple Animation */
+
+@-webkit-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px rgba(0, 198, 255, 1);
+    }
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px rgba(0, 198, 255, 1);
+    }
+}
+@-moz-keyframes mymove {
+    0% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px rgba(0, 198, 255, 1);
+    }
+    50% {
+        opacity: 0;
+        text-shadow: none;
+    }
+    100% {
+        opacity: 1.0;
+        text-shadow: 0 0 20px rgba(0, 198, 255, 1);
+    }
+    ;
+}
+
+
+/****************** Gadget EPG info ***************/
+
+.epg-info{
+text-align:left !important;
+}
+.epg-info .title{
+width:100%;
+}
+
+/***********************END ***********************/
+
+
+
+/************************* Five day Weather widget***************/
+.mainwrap{
+    width:100%;
+    float:left;
+    /* background: url("../../../../../sites/all/themes/tpvision/images/edit_website/weather-background.jpg") no-repeat; */
+}
+.innerwrap{
+    display: flex;
+    width:80%;
+    margin:auto;
+}
+.inner-top-left{
+    width:50%;
+    float: left;
+    text-align: center;
+}
+.inner-top-right{
+    width: 50%;
+    float: right;
+    padding-top: 2%;
+    text-align: center;
+}
+.downwrap{
+    width: 100%;
+    float: left;
+    clear: both;
+    margin-top: 30px;
+}
+.weather-day-2, .weather-day-3, .weather-day-4, .weather-day-5{
+    width: 25%;
+    float: left;
+    text-align: center;
+}
+.inner-top-right .first-day-temp{
+    font-size: 52px;
+    font-weight: 600;
+    padding-top: 10px;
+    padding-bottom : 5%;
+    /* color: #333; */
+}
+.inner-top-right .first-day-type{
+    font-weight: 300;
+    font-size: 20px;
+    /* color: #333; */
+}
+
+.inner-top-right .first-day-description{
+    font-size: 20px;
+}
+.weatherFive-gadget .weather-first-icon-size img{
+    width: 45%;
+}
+.weatherFive-gadget .weather-icon-size img{
+    width: 30%;
+}
+/********************end Five day weather widget***************/
+.autocomplete {
+    /*the container must be positioned relative:*/
+    position: relative;
+    display: inline-block;
+  }
+.autocomplete-items {
+    position: absolute;
+    border: 1px solid rgba(212, 212, 212, 1);
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgba(255, 255, 255, 1);
+    border-bottom: 1px solid rgba(212, 212, 212, 1);
+  }
+  .autocomplete-items div:hover {
+    /*when hovering an item:*/
+    background-color: rgba(233, 233, 233, 1);
+  }
+  .autocomplete-active {
+    /*when navigating through the items using the arrow keys:*/
+    background-color:rgba(30, 144, 255, 1) !important;
+    color: rgba(255, 255, 255, 1);
+  }
+
+.autocomplete .delete-loading{
+    margin: -5px 60px;
+}
+.gadget-country-selection{
+    display: flex;
+}
+#text-translation-loading{
+    width: 25px;
+    height: 25px;
+    margin-top: 3px;
+    padding: 0 11px 4px 0px !important;
+    float: right;
+}
+#text-translation-loading .delete-loading1{
+    float: right;
+    position: unset;
+}
+
+.pms-message-inner-right .pms-message-li-items{ 
+    font-size:inherit; 
+    float: right;
+    color:rgba(255, 255, 255, 1);
+    margin:auto;
+    background-color: rgba(24, 113, 173, 1);
+    border-color: rgba(24, 113, 173, 1);
+    margin-top: 4%;
+    border-radius: 10px 10px 10px 10px;
+    min-height: 50px;
+    width:auto;
+    display: inline-block;
+    text-align: match-parent;
+    clear:right;
+    position: relative;
+}
+.pms-message-inner-left .pms-message-li-items{
+    font-size:inherit; 
+    color:rgba(10, 10, 10, 1);
+    margin:auto;
+    background-color: rgba(196, 196, 196, 1);
+    border-color: rgba(24, 113, 173, 1);
+    margin-top: 10%;
+    border-radius: 10px 10px 10px 10px;
+    min-height: 50px;
+}
+.pms-message-inner-right {
+  float: right;
+  padding: 0 0 0 15px;
+  font-size: 14px;
+}
+.pms-message-inner-left {
+    float: left;
+    padding: 0 0 0 15px;
+    font-size: 14px;
+}
+.pms-message-info {
+  margin: 0;
+  padding: 18px 16px 10px;
+}
+
+.pms-message-dash-line{
+    /* border-bottom: 1px solid  rgba(196, 196, 196, 1); */
+    margin: 15px 0 -5px 0px;
+    clear:both;
+}
+
+.pms-message-time_date{
+    color: rgba(10, 10, 10, 1);
+    display: block;
+    font-size: 12px;
+    margin: 8px 8px 8px;
+    text-align: left;
+}
+.pms-message-li-items .pms-arrow{
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    border-left: 12px solid rgba(24, 113, 173, 1);
+    position: absolute;
+    right: -11px;
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
+/*    end css for pms message        */
+
+/* gadget pms bill css*/
+.guest-bill-info{
+    margin-top: 2%;
+  }
+  #guest-name-info,
+  #guest-title-info,
+  #invoice-date-title,
+  #invoice-date-info,
+  #total-amount-title,
+  #total-amount-info{
+    width:50%;
+    float: left;
+    padding: 1%;
+    box-sizing: border-box;
+  }
+  .guest-details-info{
+    width:100%;
+    box-sizing: border-box;
+  }
+  .invoice-date,
+  .total-amount{
+    width: 100%;
+    float: left;
+  }
+  .guest-bill-details,
+  #bill-details-breakdown{
+    width: 100%;
+    margin-left: auto;
+    padding: 0% 2%;
+    box-sizing: border-box;
+    float: left;
+  }
+  .guest-bill-info table tbody tr td,th {
+    padding: 10px 0;
+}
+.bill-info-title th{
+    border-bottom: none !important;
+}
+.guest-bill-details table tbody{
+    border-top: none !important;
+}
+/* ends pms bill here*/

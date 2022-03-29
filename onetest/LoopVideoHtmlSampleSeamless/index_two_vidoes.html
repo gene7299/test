@@ -1,0 +1,295 @@
+<html>
+<head>
+<title>this is test</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+ 
+
+function workaroudVideoPlay(id) {
+    var vid = document.getElementById(id);
+    vid.load();
+    setTimeout(function(){
+            //vid.play();
+    },5000);
+    setTimeout(function(){
+            //vid.play();
+    },6000);
+    setTimeout(function(){
+            vid.play();
+    },3000);
+    setTimeout(function(){
+            //vid.play();
+    },4000);
+}
+
+
+window.addEventListener('message', function(e) {
+	var str = '<li>';
+	str += '[' + e.origin + ']';
+	str += '[' + e.source + ']';
+	str += '[' + e.ports + ']';
+	str += ' : ';
+	str += e.data;
+	str += '</li>\n';
+    console.log(str);
+    //workaroudVideoPlay(e.data);
+	//document.getElementById('panel').innerHTML += str;
+	//e.source.postMessage('got it at '+(new Date())+'.', e.origin);
+}, false);
+
+
+$(document).ready(function(){
+ 
+    var client_width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+
+    var client_height = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+
+		var vList = ['001.mp4',
+                  '002.mp4',
+                  '003.mp4',
+                  '004.mp4'
+   ];
+
+    console.log("start");
+    var vLen = vList.length;  
+    var curr = 0; 
+    var playCount = 1;
+    var switchtag = 0;
+    var mappingToVideoId;
+    var mappingToVideoTag;
+    var isLetPCcanAutoPlay = true;
+
+    function createTwoVideoTag(){
+        //https://www.w3.org/2010/05/video/mediaevents.html
+
+        if(document.getElementById("vid_" + 1 ) == null) {
+            //create 2 video tag if first run and default hide
+            var htmlVideoTag1 =  '<video width="'+client_width+'px" height="'+client_height+'px" class="video" id="vid_'+1+'" style="display:none;" >'
+            var htmlVideoTag2 =  '<video width="'+client_width+'px" height="'+client_height+'px" class="video" id="vid_'+2+'" style="display:none;" >'
+            var htmlSeamlessCanvas = '<canvas id="videoCanvas" style="display:none;"></canvas>';
+
+            $("#content_wrapper").append(htmlVideoTag1);
+            $("#content_wrapper").append(htmlVideoTag2);
+            $("#content_wrapper").append(htmlSeamlessCanvas);
+
+            var videoTag1 = document.getElementById("vid_"+ 1);
+            var videoTag2 = document.getElementById("vid_"+ 2);
+            var videoCanvas = document.getElementById('videoCanvas');
+
+            // Video events for videoTag1
+            videoTag1.addEventListener("playing", function() {
+                console.log(videoTag1.id + " is playing");
+                //Don't switch show/hide at this moment. 
+                //$("#"+videoTag1.id).show();
+                //$("#"+videoTag2.id).hide();
+            });
+
+            videoTag1.addEventListener("timeupdate", function() {
+                if(videoTag1.currentTime > 0 && videoTag1.currentTime < 0.6) {
+                console.log(videoTag1.id + " is timeupdate = " + videoTag1.currentTime);
+                $("#"+videoTag1.id).show();
+                $("#"+videoTag2.id).hide();
+                }
+            });
+
+            videoTag1.addEventListener("canplaythrough", function() {
+                console.log(videoTag1.id + " is canplaythrough");
+                if(isLetPCcanAutoPlay) { videoTag1.muted = true; }
+                console.log(videoTag1.id + " is paused = "+ videoTag1.paused);
+                if(videoTag1.paused) {
+                    console.log(videoTag1.id + " is play now!");
+                    videoTag1.play();
+                }
+            });
+
+            videoTag1.addEventListener("ended", function() {
+                console.log(videoTag1.id + " is ended");
+
+                //Create canvas and draw current frame to it
+                
+                videoCanvas.width = videoTag1.videoWidth;
+                videoCanvas.height = videoTag1.videoHeight;
+                var vidCtx = videoCanvas.getContext('2d');
+                vidCtx.drawImage(videoTag1, 0, 0, videoCanvas.width, videoCanvas.height);
+                $("#videoCanvas").show();
+                $("#"+videoTag1.id).hide();
+
+                curr++;   
+                if(curr >= vLen){   
+                    curr = 0;
+                }
+                createTwoVideoTag();
+            });
+
+            // Video events for videoTag2
+            videoTag2.addEventListener("playing", function() {
+                console.log(videoTag2.id + " is playing");
+                console.log(videoTag2.id + "'s readyState = "+ videoTag2.readyState);
+
+                //Don't switch show/hide at this moment. 
+                //$("#"+videoTag2.id).show();
+                //$("#"+videoTag1.id).hide();
+            });
+
+            videoTag2.addEventListener("loadeddata", function() {
+                console.log(videoTag2.id + " is loadeddata");
+                console.log(videoTag2.id + "'s readyState = "+ videoTag2.readyState);
+                if(videoTag2.readyState == 1) {
+                    console.log("[Try2] "+videoTag2.id + " is play now!");
+                    //videoTag2.play();
+                }
+                //Don't switch show/hide at this moment. 
+                //$("#"+videoTag2.id).show();
+                //$("#"+videoTag1.id).hide();
+            });
+
+            videoTag2.addEventListener("loadedmetadata", function() {
+                console.log(videoTag2.id + " is loadedmetadata");
+                console.log(videoTag2.id + "'s readyState = "+ videoTag2.readyState);
+                console.log(videoTag2.id + " is paused = "+ videoTag2.paused);
+
+                //Don't switch show/hide at this moment. 
+                //$("#"+videoTag2.id).show();
+                //$("#"+videoTag1.id).hide();
+            });
+
+            videoTag2.addEventListener("timeupdate", function() {
+                if(videoTag2.currentTime > 0 && videoTag2.currentTime < 0.6) {
+                console.log(videoTag2.id + " is timeupdate = " + videoTag2.currentTime);
+                $("#"+videoTag2.id).show();
+                $("#"+videoTag1.id).hide();
+                }
+            });
+
+            videoTag2.addEventListener("canplaythrough", function() {
+                console.log(videoTag2.id + " is canplaythrough");
+                if(isLetPCcanAutoPlay) { videoTag2.muted = true; }
+                console.log(videoTag2.id + " is paused = "+ videoTag2.paused);
+                if($("#"+videoTag2.id).attr("setPlayedRunning") != "true") {
+                    $("#"+videoTag2.id).attr("setPlayedRunning", "true");
+                    console.log(videoTag2.id + " is play now!");
+
+                    $("#"+videoTag2.id).show();
+                $("#"+videoTag1.id).hide();
+
+                    //videoTag1.pause();                    
+                    //videoTag1.setAttribute("src","");
+                    //videoTag2.play();
+                    //$("#"+videoTag2.id).trigger("play");
+                    //var playPromise = videoTag2.play();
+                    //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- begin --
+                    // setTimeout(function(){
+                    //     window.postMessage(videoTag2.id);
+                    //     //workaroudVideoPlay(videoTag2.id);
+                    //     // var vid2 = document.getElementById(videoTag2.id);
+                    //     // console.log("videoTag2.readyState_D1="+videoTag2.readyState);
+                    //     // if(videoTag2.readyState == 4){
+                    //     //     vid2.load();
+                    //     //     //var src = videoTag2.getAttribute("src");
+                    //     //     //videoTag2.setAttribute("src",src);
+                    //     // }
+                    // },1000);
+                    // setTimeout(function(){
+                    //     console.log("videoTag2.readyState_D1="+videoTag2.readyState);
+                    //     if(videoTag2.readyState == 4){
+                    //         //videoTag2.load();
+                    //         //var src = videoTag2.getAttribute("src");
+                    //         //videoTag2.setAttribute("src",src);
+                    //     }
+                    // },2000);
+                    // setTimeout(function(){
+                    //     var vid2 = document.getElementById(videoTag2.id);
+
+                    //     //console.log("videoTag2.readyState_D2="+videoTag2.readyState);
+                    //     //if(videoTag2.readyState == 4){
+                    //         vid2.play();
+                    //     //}
+                    // },7000);
+                    //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- begin --
+
+                    // In browsers that don’t yet support this functionality,
+                    // playPromise won’t be defined.
+                    // if (playPromise !== undefined) {
+                    //     playPromise.then(function() {
+                    //         // Automatic playback started!
+                    //         console.log("[Try] "+videoTag2.id + " is play now!");
+                    //         console.log("[Try] "+videoTag2.id + " is paused = "+ videoTag2.paused);
+                    //         console.log("[Try] "+videoTag2.id + "'s readyState = "+ videoTag2.readyState);
+                    //         //videoTag2.load();
+
+                    //         //videoTag2.load();
+                    //         //videoTag2.load();
+                    //         //videoTag2.play();
+                    //     }).catch(function(error) {
+                    //         console.log(error);
+                    //         // Automatic playback failed.
+                    //         // Show a UI element to let the user manually start playback.
+                    //     });
+                    // }
+
+                    
+                    //videoTag2.load();
+                    //videoTag2.play();
+                }
+            });
+
+            videoTag2.addEventListener("ended", function() {
+                console.log(videoTag2.id + " is ended");
+                curr++;   
+                if(curr >= vLen){   
+                    curr = 0;
+                }
+                createTwoVideoTag();
+            });
+
+            //create mapping 
+            mappingToVideoId = [1,2];
+            mappingToVideoIdStr = ["vid_1","vid_2"];
+            mappingToVideoTag = [videoTag1, videoTag2];
+        }
+
+            console.log("playCount = "+ playCount +";switchtag = " + Number(switchtag) + "; currVidoe=" + curr); 
+
+            //apply current video source to one video tag
+            //$("#vid_" + mappingToVideoId[Number(switchtag)]).attr("src",vList[curr]);
+            mappingToVideoTag[Number(switchtag)].setAttribute("src",vList[curr]);
+            $("#"+mappingToVideoIdStr[Number(switchtag)]).attr("setPlayedRunning","false");
+            // var nextvid = curr+1;   
+            // if(nextvid >= vLen){   
+            //     nextvid = 0;
+            // }
+            // mappingToVideoTag[Number(!switchtag)].setAttribute("src",vList[nextvid]);
+
+            //console.log("vid_" + mappingToVideoId[Number(switchtag)] + "'s readyState = "+mappingToVideoTag[Number(switchtag)].readyState);
+
+            //    //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- begin --
+            //   setTimeout(function(){
+            //       console.log("vid.readyState_D="+currVideoTag.readyState);
+            //       if(currVideoTag.readyState == 1){
+            //           //myvideo.load();
+            //           currVideoTag.play();
+            //       }
+            //   },100);
+            // //Patch by Gene@tpv; Some platfrom can't return state 4 (HAVE_ENOUGH_DATA) -- begin --
+
+            switchtag = !switchtag;
+            playCount++;
+       
+    }        
+ 
+    createTwoVideoTag();
+});   
+        
+</script>
+
+</head>
+<body style="margin:0px;background-color:#00FF00;">
+<div id="content_wrapper" sytle="width:100%;height:100%" ></div>
+<div id="version" style="position: absolute; left:100px ; top: 100px; font-size: 40px;background: #FFFFFF;  opacity: 0.8;">  Seamless001 (20210916) (a) </div>
+</video>
+</body>
+</html>

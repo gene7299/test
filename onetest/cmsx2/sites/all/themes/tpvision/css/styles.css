@@ -1,0 +1,99 @@
+/**
+ * @file
+ * Styles are organized using the SMACSS technique. @see http://smacss.com/book/
+ *
+ * When you turn on CSS aggregation at admin/config/development/performance, all
+ * of these @include files will be combined into a single file.
+ */
+
+
+/* HTML element (SMACSS base) rules */
+
+@import "normalize.css";
+
+/* Layout rules */
+
+@import "layouts/responsive.css";
+
+/* Component (SMACSS module) rules */
+
+@import "components/misc.css";
+
+/* Optionally, add your own components here. */
+
+@import "print.css";
+
+/* SMACSS theme rules */
+
+
+/* @import "theme-A.css"; */
+
+
+/* @import "theme-B.css"; */
+
+html, body {
+    height: 100%;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none !important;
+    letter-spacing: normal !important;
+}
+
+span {
+    letter-spacing: normal !important;
+    line-height: normal;
+
+}
+
+.wid-object-txt {
+    line-height: normal !important;
+    padding: 5px 5px 5px 5px !important;
+    box-sizing: border-box;
+}
+
+#header-wrapper {
+    width: 100%;
+}
+#header-wrapper #header, #content {
+    /*max-width:1280px;*/
+    margin: 0px auto;
+}
+ul.playlist-items {
+    padding: 0px;
+    right: 0px !important;
+}
+#main{
+
+  font-family: "Roboto-Regular";
+}
+
+
+/* .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('../images/loading.gif')
+                50% 50%
+                no-repeat;
+    background-size : 100px;
+} */
+
+/* When the body has the loading class, we turn
+   the scrollbar off with overflow:hidden 
+body.loading .modal {
+    overflow: hidden;
+} */
+
+/* Anytime the body has the loading class, our
+   modal element will be visible */
+/*body.loading .modal {
+    display: block;
+}*/
+
+.object-property .chosen-container{
+  min-width:200px;
+}

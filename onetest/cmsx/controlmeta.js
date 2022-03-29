@@ -1,0 +1,1 @@
+const controlmeta = "SERVER_ADDRESS=192.168.1.158:8080;&##&;HARDWAREKEY=AU3A1234567890;&##&;ROOT=smartcontrol;&##&;";
