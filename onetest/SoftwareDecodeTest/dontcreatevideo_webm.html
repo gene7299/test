@@ -1,0 +1,63 @@
+<html>
+<head>
+<title>this is test</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+ 
+$(document).ready(function(){
+ 
+		var vList = ['1580290502_Bumper_04.webm','1580290522_TV_NOTICIAS.webm'];
+
+    console.log("start");
+    var vLen = vList.length;  
+    var curr = 0; 
+    var sCount = 1;
+    
+    function createVideoTag(){
+        console.log("--1-- curr="+curr);
+        //default dom
+        //$("#vid_0").remove();
+        //$("#vid_1").remove();
+        $("#item_0").hide();
+        $("#item_1").hide();
+
+
+        if($("#vid_"+curr).length == 0) {
+          //create new video tag
+          var html1 =  '<video width="720" height="400" class="video" id="vid_'+curr+'" date="'+ new Date().getTime() +'" src="'+vList[curr]+'" controls >'
+          $("#item_"+curr).append(html1);
+        }
+        $("#item_"+curr).show();
+    
+        var myvideo = document.getElementById("vid_"+curr);  
+        
+        myvideo.onended = function() {
+          console.log("onended curr="+curr);
+
+          curr++;   
+          if(curr >= vLen){   
+              curr = 0;
+          }
+          console.log("count:"+sCount);
+          sCount++;
+          createVideoTag();
+        };
+
+        myvideo.play();
+       
+    }        
+ 
+    createVideoTag();
+});   
+        
+</script>
+
+</head>
+<body style="background:#FFFFFF">
+<div style="color:#888888">video software decode test (disable-accelerated-video-decode) - Don't reCreate Video tag</div>
+<div id="item_0"></div>
+<div id="item_1"></div>
+
+</video>
+</body>
+</html>
