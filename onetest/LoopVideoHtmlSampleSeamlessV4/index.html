@@ -1,0 +1,169 @@
+<html>
+<head>
+<title>this is test</title>
+<script src="jquery-3.5.1.min.js"></script>
+<script type="text/javascript">
+var client_width
+var client_height
+var black1PxPoster = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABAQMAAAAl21bKAAAAA3NCSVQICAjb4U/gAAAABlBMVEUAAAD///+l2Z/dAAAACXBIWXMAAAsSAAALEgHS3X78AAAAFnRFWHRDcmVhdGlvbiBUaW1lADA5LzAzLzIx3MFfSQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAKSURBVAiZY2AAAAACAAH0cWSmAAAAAElFTkSuQmCC";
+var magenta1PxPoster = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8yvD/PwAGmwLlsiu33QAAAABJRU5ErkJggg==";
+
+$(document).ready(function(){
+ 
+    client_width = window.innerWidth
+    || document.documentElement.clientWidth
+    || document.body.clientWidth;
+    console.log("client_width="+client_width);
+    client_height = window.innerHeight
+    || document.documentElement.clientHeight
+    || document.body.clientHeight;
+    console.log("client_height="+client_height);
+    console.log("window.innerHeight="+window.innerHeight);
+    console.log("document.documentElement.clientHeight="+document.documentElement.clientHeight);
+    console.log("document.body.clientHeight="+document.body.clientHeight);
+		var vList = ['001.mp4','009.mp4',
+                  '002.mp4',
+                  '003.mp4',
+                  '004.mp4'
+   ];
+
+    console.log("start");
+    var vLen = vList.length;  
+    var curr = 0; 
+    var playCount = 1;
+    var isLetPCcanAutoPlay = false;
+
+    function createSeamlessOneVideoTag(src){
+        //https://www.w3.org/2010/05/video/mediaevents.html
+
+        if(document.getElementById("vid_" + 0 ) == null) {
+
+            var videoWidth = client_width;
+            var videoHeight = client_height;
+            //create video tag if first run and default hide
+            var htmlVideoTag0 =  '<video muted width="'+videoWidth+'px" height="'+videoHeight+'px" class="video" id="vid_'+0+'" style="display:none;background:#FF0 !important;object-fit:fill;" >'
+            var htmlSeamlessCanvas = '<canvas id="videoCanvas" width="'+videoWidth+'px" height="'+videoHeight+'px" style="display:none;background:#0FF !important;object-fit:fill;"></canvas>';
+
+            $("#content_wrapper").append(htmlVideoTag0);
+            $("#content_wrapper").append(htmlSeamlessCanvas);
+
+            var videoTag0 = document.getElementById("vid_"+ 0);
+            var videoCanvas = document.getElementById('videoCanvas');
+            var vidCtx = videoCanvas.getContext('2d');
+
+            videoTag0.setAttribute("poster",magenta1PxPoster);
+            // Video events for videoTag0
+            videoTag0.addEventListener("playing", function() {
+                console.log(videoTag0.id + " is playing");
+
+            });
+
+            videoTag0.addEventListener("error", function(e) {
+                console.log(videoTag0.id + " is Error " + videoTag0.error.code + "; details: " + videoTag0.error.message);
+                console.log("Change to next video");
+
+                curr++;   
+                if(curr >= vLen){   
+                    curr = 0;
+                }
+
+                if(videoTag0.getAttribute("src") != "") {
+                    createSeamlessOneVideoTag(vList[curr]);
+                }
+            });
+
+            videoTag0.addEventListener("durationchange", function() {
+                console.log(videoTag0.id + " is durationchange");
+
+            });
+
+            videoTag0.addEventListener("play", function() {
+                console.log(videoTag0.id + " is play");
+
+            });
+
+            videoTag0.addEventListener("resize", function() {
+                console.log(videoTag0.id + " is resize");
+
+            });
+
+            videoTag0.addEventListener("canplay", function() {
+                console.log(videoTag0.id + " is canplay");
+
+            });
+
+            videoTag0.addEventListener("waiting", function() {
+                console.log(videoTag0.id + " is waiting");
+
+            });
+
+            //Need to wait until the first frame is showing to skip background flash
+            videoTag0.addEventListener("timeupdate", function() {
+                if(videoTag0.currentTime > 0 && videoTag0.currentTime < 0.6) {
+                console.log(videoTag0.id + " is timeupdate = " + videoTag0.currentTime);
+                    $("#"+videoTag0.id).show();
+                    $("#videoCanvas").hide();
+                    vidCtx.clearRect(0, 0, videoCanvas.width, videoCanvas.height);
+                }
+            });
+
+            videoTag0.addEventListener("canplaythrough", function() {
+                console.log(videoTag0.id + " is canplaythrough");
+                if(isLetPCcanAutoPlay) { videoTag0.muted = true; }
+                console.log(videoTag0.id + " is paused = "+ videoTag0.paused);
+                if(videoTag0.paused) {
+                    console.log(videoTag0.id + " is play now!");
+                    videoTag0.play();
+                }
+            });
+
+            videoTag0.addEventListener("ended", function() {
+                console.log(videoTag0.id + " is ended");
+                videoTag0.pause(); 
+
+
+
+                setTimeout(function(){
+                    
+                    //** Modification for more robust, smoothly 
+                    //draw current video frame to videoCanvas element
+                    vidCtx.drawImage(videoTag0, 0, 0, videoWidth, videoHeight);
+                    $("#videoCanvas").show();
+                    $("#"+videoTag0.id).hide();
+                    //** ~ Modification for more robust, smoothly 
+                    videoTag0.setAttribute("src","");//Notify the Chromium to clean up resource of video codec.
+                    curr++;   
+                    if(curr >= vLen){   
+                        curr = 0;
+                    }
+                    createSeamlessOneVideoTag(vList[curr]);
+                },10); //wait 100ms to stop stable to draw last frame pictrue
+
+            });
+        }
+
+        console.log("playCount = "+ playCount +"; currVidoe=" + curr + "; currVideoFile=" + vList[curr]); 
+        $("#vid_" + 0).attr("src",vList[curr]);           
+        playCount++;
+        
+       
+    }        
+    setTimeout(function(){
+        client_height = window.innerHeight
+            || document.documentElement.clientHeight
+            || document.body.clientHeight;
+            console.log("client_height2="+client_height);
+            createSeamlessOneVideoTag(vList[0]);
+    },100);
+    
+});   
+        
+</script>
+
+</head>
+<body style="margin:0px;background-color:#33ff00;">
+<div id="content_wrapper" sytle="width:100%;height:100%" ></div>
+<div id="version" style="position: absolute; left:100px ; top: 100px; font-size: 40px;background: #FFFFFF;  opacity: 0.8;">  LoopVideoHtmlSampleV4 for Aggressive CleanUp Enable Chromium 20220408 </div>
+</video>
+</body>
+</html>
