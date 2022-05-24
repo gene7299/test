@@ -307,7 +307,7 @@ function playPlaylist(playlistItems, onid, sch, snid, pl_details, count, i, stop
                       }
                         x.play();
                     }else{
-                       var html1 = '<video id="' + pl_item + '" style="' + css + '"><source src="' + src + '" type="video/mp4"><source src="' + src + '" type="video/ogg"><source src="' + src + '" type="video/mov"></video>';
+                       var html1 = '<video muted id="' + pl_item + '" style="' + css + '"><source src="' + src + '" type="video/mp4"><source src="' + src + '" type="video/ogg"><source src="' + src + '" type="video/mov"></video>';
                        $(pl).find("." + pl_item).append(html1);
                        $(pl).find('#' + pl_item).show();
                        $(pl + ' video#' + pl_item).load();
@@ -847,7 +847,7 @@ function constructCurrentPageResourcedetails(data, id){
         }else{
             var src = $("#"+vid).find(".video-preview").attr("src");
             var css = $("#"+vid).find(".video-preview").attr("css");
-            var html1 = '<video id="#video-'+vid+'" style="' + css + '"><source src="' + src + '" type="video/mp4"></video>';
+            var html1 = '<video muted id="#video-'+vid+'" style="' + css + '"><source src="' + src + '" type="video/mp4"></video>';
             video.find(".content-wrapper").append(html1);
             $("." + id + " #" + vid + " video:visible").autoplay = true;
             $("." + id + " #" + vid + " video:visible").currentTime = 0;
@@ -1221,7 +1221,7 @@ function ChangeVideoSourceOnPlayback(pl, pl_item, playlistItems, onid, sch, snid
     if ($(pl).find('.' + pl_item).hasClass('video')) {
         var src = $(pl + " ." + pl_item).attr("src");
         var css = $(pl + " ." + pl_item).attr("css");
-        var videoTag = '<video id="' + contentId + '-video-item" style="' + css + ';background-color:#000;object-fit:fill;" src="' + src + '">';
+        var videoTag = '<video muted id="' + contentId + '-video-item" style="' + css + ';background-color:#000;object-fit:fill;" src="' + src + '">';
         var htmlSeamlessCanvas = getCanvasHTML(css, onid);
 
         if (document.getElementById(contentId + "-video-item") == null ) { 

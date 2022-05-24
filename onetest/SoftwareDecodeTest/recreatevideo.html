@@ -22,7 +22,7 @@ $(document).ready(function(){
         $("#item_0").hide();
 
         //create new video
-        var html1 =  '<video width="720" height="400" class="video" id="vid_'+curr+'" src="'+vList[curr]+'" controls >'
+        var html1 =  '<video width="720" height="400" class="video" id="vid_'+curr+'" src="'+vList[curr]+'" controls muted>'
         $("#item_"+curr).append(html1);
         $("#item_"+curr).show();
     
@@ -51,7 +51,7 @@ $(document).ready(function(){
 
 </head>
 <body style="background:#FFFFFF">
-<div style="color:#888888">video software decode test (disable-accelerated-video-decode)</div>
+<div style="color:#888888">video decode test</div>
 <div id="item_0"></div>
 <div id="item_1"></div>
 
